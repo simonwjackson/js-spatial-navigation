@@ -20,6 +20,7 @@
   // - a string "@<sectionId>" to indicate the specified section
   // - a string "@" to indicate the default section
   var GlobalConfig = {
+    from: undefined,
     selector: '',           // can be a valid <extSelector> except "@" syntax.
     straightOnly: false,
     straightOverlapThreshold: 0.5,
@@ -450,10 +451,12 @@
 
   function parseSelector(selector) {
     var result;
+    var el = GlobalConfig.from || document;
+    
     if ($) {
       result = $(selector).get();
     } else if (typeof selector === 'string') {
-      result = [].slice.call(document.querySelectorAll(selector));
+      result = [].slice.call(el.querySelectorAll(selector));
     } else if (typeof selector === 'object' && selector.length) {
       result = [].slice.call(selector);
     } else if (typeof selector === 'object' && selector.nodeType === 1) {
